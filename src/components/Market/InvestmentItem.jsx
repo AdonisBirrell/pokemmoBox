@@ -31,20 +31,15 @@ export const InvestmentItem = ({ investment, onPriceUpdate }) => {
     const { toggleInvestmentsModal, removeFromInvestments, allItems } = useMarket()
     const item = allItems.find(({ item_id }) => item_id === investment.i) || {}
     const {
-        n = {
-            "en": "1,000RP Reward Point Voucher",
-            "cn": "1,000RP奖励点券(Reward Point Voucher)",
-            "de": "1.000RP Prämienpunkte-Gutschein",
-            "fr": "1.000RP Bon Point Récompense (RP)",
-            "it": "Buono da 1,000 Punti Premio",
-            "es": "1.000 PP Vale de Puntos de Premio",
-            "ja": "1,000RP Reward Point Voucher",
-            "tw": "1,000RP獎勵點券(Reward Point Voucher)"
-        },
+        n,
         _id = 275,
         slug = "1000rp-reward-point-voucher",
         category = 0
     } = item
+    
+    // 使用 getItemName 获取项目名称，这将确保即使在数据缺失时也能显示占位符文本
+    const itemName = n || getItemName(investment.i);
+    
     const sellTotal = currentPrice.min * investment.quantity    //prices.calculateSellGain(currentPrice.min) for listing fee deduction
     const boughtTotal = investment.boughtPrice * investment.quantity
     const boughtWorth = investment.quantity * currentPrice.min
@@ -66,7 +61,7 @@ export const InvestmentItem = ({ investment, onPriceUpdate }) => {
             <Td component="th" scope="row" className="d-flex align-items-start border-0">
                 <ItemImage className="me-1" category={category} id={_id} />
                 &nbsp;
-                <Typography as={Link} to={`/items/${slug}`} style={{ color: 'var(--bs-info)' }}>{getItemName(investment.i)[language]}</Typography>
+                <Typography as={Link} to={`/items/${slug}`} style={{ color: 'var(--bs-info)' }}>{itemName[language]}</Typography>
             </Td>
             <Td align="right" className=' border-0'>
                 <ItemPrices onPriceUpdate={setCurrentPrice} i={investment.i} noDiff={true} />
