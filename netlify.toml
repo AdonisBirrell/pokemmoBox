@@ -13,4 +13,4 @@
   status = 200
 
 [functions]
-  node_version = "16"
+  node_bundler = "esbuild"
